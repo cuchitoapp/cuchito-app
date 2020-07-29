@@ -1,4 +1,4 @@
-# cuchitoapp
+# CuchitoApp
 
 ### Some Screenshots
 
