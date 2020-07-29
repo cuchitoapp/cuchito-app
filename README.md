@@ -1,5 +1,9 @@
 # cuchitoapp
 
+### Some Screenshots
+
+<img src="welcome.png"/>
+
 A new Flutter project.
 
 ## Getting Started
