@@ -1,8 +1,8 @@
 # CuchitoApp
 
-### Some Screenshots
-
 <img src="welcome.png"/>
+
+### Some Screenshots
 
 A new Flutter project.
 
