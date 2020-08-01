@@ -24,7 +24,11 @@ class _FeedState extends State<Feed> {
                   tag: 'imageHero',
                   child: Image.network(
                     'https://www.hola.com/imagenes/estar-bien/20190820147813/razas-perros-pequenos-parecen-grandes/0-711-550/razas-perro-pequenos-grandes-m.jpg',
-                  ))
+                    width: 500,
+                    height: 400,
+                  )),
+              Text('porfis',
+                  style: TextStyle(fontFamily: 'Billabong', fontSize: 30)),
             ],
           ),
         ),
