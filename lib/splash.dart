@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cuchitoapp/screens/login_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 4),
         () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen())));
   }
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Hero(
                 tag: 'imageHero',
                 child: Image.network(
-                  'https://i.ibb.co/qjJHTxS/Dise-o-sin-t-tulo-3.png',
+                  'https://i.ibb.co/syVr5Rx/screen-splash.png',
                   fit: BoxFit.cover,
                 )),
           ),
@@ -69,7 +70,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       width: 50,
                       height: 50,
                       child: CircularProgressIndicator(
-                        strokeWidth: 10,
                         valueColor:
                             AlwaysStoppedAnimation(Colors.blueAccent[200]),
                         backgroundColor: Colors.green[300],
@@ -77,11 +77,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     Padding(padding: EdgeInsets.only(top: 20)),
                     Text(
-                      'Cargando la diversíon',
+                      '',
                       style: TextStyle(
                           fontFamily: 'Billabong',
                           fontSize: 40,
-                          color: Colors.black,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
