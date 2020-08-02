@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(milliseconds: 1600),
         () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen())));
   }
@@ -26,6 +26,12 @@ class _SplashScreenState extends State<SplashScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(color: Colors.lightGreen[900]),
+            child: Hero(
+                tag: 'imageHero',
+                child: Image.network(
+                  'https://i.ibb.co/qjJHTxS/Dise-o-sin-t-tulo-3.png',
+                  fit: BoxFit.cover,
+                )),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -36,23 +42,19 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 50,
-                        child: Icon(
-                          Icons.shopping_basket,
-                          color: Colors.greenAccent,
-                          size: 50,
-                        ),
-                      ),
                       Padding(padding: EdgeInsets.only(top: 10)),
-                      Text(
-                        'Bienvenido',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Billabong',
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 290),
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Billabong',
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -63,14 +65,23 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
-                    Padding(padding: EdgeInsets.only(top: 25)),
+                    SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 10,
+                        valueColor:
+                            AlwaysStoppedAnimation(Colors.blueAccent[200]),
+                        backgroundColor: Colors.green[300],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 20)),
                     Text(
                       'Cargando la diversíon',
                       style: TextStyle(
                           fontFamily: 'Billabong',
-                          fontSize: 20,
-                          color: Colors.white,
+                          fontSize: 40,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
