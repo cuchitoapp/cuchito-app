@@ -1,12 +1,12 @@
 import 'package:cuchitoapp/screens/feed.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class Login1 extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _Login1State createState() => _Login1State();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _Login1State extends State<Login1> {
   final _formKey = GlobalKey<FormState>();
   String _usuario, _pass;
   _submit() {
@@ -53,21 +53,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.blueGrey[200],
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'CuhitoAPP',
-              style: TextStyle(
-                fontFamily: 'Billabong',
-                fontSize: 48.0,
-              ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.lightGreen[900]),
+            child: Image.asset(
+              'assets/images/foto1.png',
+              fit: BoxFit.cover,
             ),
-            Form(
+          ),
+          Center(
+            child: Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -76,7 +75,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Usuario'),
+                      decoration: InputDecoration(
+                        labelText: 'Usuario',
+                        labelStyle: theme.textTheme.caption
+                            .copyWith(color: Colors.white, fontSize: 15.0),
+                        icon: Icon(
+                          Icons.person_add,
+                          color: Colors.white,
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
                       validator: (input) =>
                           input.isEmpty ? 'Ingrese su nombre de usuario' : null,
                       onSaved: (input) => _usuario = input,
@@ -86,7 +94,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Contraseña'),
+                      decoration: InputDecoration(
+                        labelText: 'Contraseña',
+                        labelStyle: theme.textTheme.caption
+                            .copyWith(color: Colors.white, fontSize: 15.0),
+                        icon: Icon(
+                          Icons.enhanced_encryption,
+                          color: Colors.white,
+                        ),
+                      ),
                       validator: (input) => input.trim().isEmpty
                           ? 'Debe ingresar alguna contraseña'
                           : null,
@@ -99,12 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 250.0,
                     child: FlatButton(
                       onPressed: _submit,
-                      color: Colors.green,
+                      color: Colors.green[900],
                       child: Text(
                         'Ingresar',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15.0,
+                          fontSize: 16.0,
                         ),
                       ),
                     ),
@@ -112,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cuchitoapp/screens/login_screen.dart';
+import 'package:cuchitoapp/screens/login.dart';
 
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         Duration(seconds: 4),
         () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen())));
+            context, MaterialPageRoute(builder: (context) => Login1())));
   }
 
   @override
@@ -27,13 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(color: Colors.lightGreen[900]),
-            child: Hero(
-                tag: 'imageHero',
-                child: Image.network(
-                  'https://i.ibb.co/syVr5Rx/screen-splash.png',
-                  fit: BoxFit.cover,
-                )),
+            child: Image.asset(
+              'assets/images/foto1.png',
+              fit: BoxFit.cover,
+            ),
           ),
+          //fit: BoxFit.cover,
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
