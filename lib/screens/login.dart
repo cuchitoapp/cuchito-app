@@ -139,16 +139,16 @@ class _Login1State extends State<Login1> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FloatingActionButton(
+                    heroTag: 'google',
                     child: Icon(FontAwesomeIcons.google),
                     backgroundColor: Color(0xff4285F4),
+                    onPressed: null,
                   ),
                   FloatingActionButton(
-                    child: Icon(FontAwesomeIcons.twitter),
-                    backgroundColor: Color(0xff00aced),
-                  ),
-                  FloatingActionButton(
+                    heroTag: 'facebook',
                     backgroundColor: Color(0xff3b5998),
                     child: Icon(FontAwesomeIcons.facebook),
+                    onPressed: null,
                   ),
                 ],
               ),
