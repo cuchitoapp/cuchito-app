@@ -1,5 +1,6 @@
 import 'package:cuchitoapp/screens/feed.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Login1 extends StatefulWidget {
   @override
@@ -115,15 +116,39 @@ class _Login1State extends State<Login1> {
                     width: 250.0,
                     child: FlatButton(
                       onPressed: _submit,
-                      color: Colors.green[900],
+                      color: Colors.green,
                       child: Text(
                         'Ingresar',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16.0,
+                          fontSize: 15.0,
                         ),
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              height: 500,
+              width: 200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FloatingActionButton(
+                    child: Icon(FontAwesomeIcons.google),
+                    backgroundColor: Color(0xff4285F4),
+                  ),
+                  FloatingActionButton(
+                    child: Icon(FontAwesomeIcons.twitter),
+                    backgroundColor: Color(0xff00aced),
+                  ),
+                  FloatingActionButton(
+                    backgroundColor: Color(0xff3b5998),
+                    child: Icon(FontAwesomeIcons.facebook),
                   ),
                 ],
               ),
