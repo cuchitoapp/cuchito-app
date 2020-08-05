@@ -9,7 +9,10 @@ class _RegistroState extends State<Registro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('Work'),
+      body: Text(
+        'Work',
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
