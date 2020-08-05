@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cuchitoapp/screens/feed.dart';
 import 'package:cuchitoapp/screens/registro.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,10 @@ class _LoginState extends State<Login> {
               ),
               content: new Text(
                 "Bienvenido: " + _usuario,
-                style: TextStyle(fontFamily: 'Billabong', fontSize: 20.0),
+                style: TextStyle(
+                  fontFamily: 'Billabong',
+                  fontSize: 20.0,
+                ),
               ),
               actions: <Widget>[
                 // usually buttons at the bottom of the dialog
