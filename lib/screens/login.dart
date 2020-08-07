@@ -167,6 +167,17 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FloatingActionButton(
+                      heroTag: 'cuchito',
+                      backgroundColor: Color(0xff3b5998),
+                      child: Icon(FontAwesomeIcons.paw),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Registro()),
+                        );
+                      },
+                    ),
+                    FloatingActionButton(
                       heroTag: 'google',
                       child: Icon(FontAwesomeIcons.google),
                       backgroundColor: Color(0xff4285F4),
@@ -177,17 +188,6 @@ class _LoginState extends State<Login> {
                       backgroundColor: Color(0xff3b5998),
                       child: Icon(FontAwesomeIcons.facebook),
                       onPressed: null,
-                    ),
-                    FloatingActionButton(
-                      heroTag: 'cuchito',
-                      backgroundColor: Color(0xff3b5998),
-                      child: Icon(FontAwesomeIcons.paw),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Registro()),
-                        );
-                      },
                     ),
                   ],
                 ),
