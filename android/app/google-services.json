@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "384147028097",
+    "firebase_url": "https://cuchito-app-project.firebaseio.com",
+    "project_id": "cuchito-app-project",
+    "storage_bucket": "cuchito-app-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384147028097:android:a69361f6a52cc997ae3580",
+        "android_client_info": {
+          "package_name": "com.example.cuchitoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384147028097-uk6rkfllnqklpavejhiss2ph68cr2g88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBntpfkBLWpTpTc1LfXxNIlfUwrGWukPIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384147028097-uk6rkfllnqklpavejhiss2ph68cr2g88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

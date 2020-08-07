@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:cuchitoapp/screens/feed.dart';
 import 'package:cuchitoapp/screens/registro.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
+
+final FirebaseAuth mAuth = FirebaseAuth.instance;
 
 class _LoginState extends State<Login> {
   //
@@ -98,14 +101,14 @@ class _LoginState extends State<Login> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 40.0, vertical: 20.0),
+                          horizontal: 30.0, vertical: 20.0),
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Usuario',
                           labelStyle: theme.textTheme.caption
                               .copyWith(color: Colors.white, fontSize: 15.0),
                           icon: Icon(
-                            Icons.person_add,
+                            FontAwesomeIcons.user,
                             color: Colors.white,
                           ),
                         ),
@@ -118,14 +121,14 @@ class _LoginState extends State<Login> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 40.0, vertical: 20.0),
+                          horizontal: 30.0, vertical: 20.0),
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
                           labelStyle: theme.textTheme.caption
                               .copyWith(color: Colors.white, fontSize: 15.0),
                           icon: Icon(
-                            Icons.enhanced_encryption,
+                            FontAwesomeIcons.userLock,
                             color: Colors.white,
                           ),
                         ),
