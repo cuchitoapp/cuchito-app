@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram_feed_ui_redesign/models/post_model.dart';
-import 'package:flutter_instagram_feed_ui_redesign/screens/view_post_screen.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
