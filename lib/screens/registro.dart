@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Registro extends StatefulWidget {
+  static final String id = 'registro';
   @override
   _RegistroState createState() => _RegistroState();
 }
@@ -13,7 +14,7 @@ class _RegistroState extends State<Registro> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String _email, _pass;
+  String _email, _pass, _confirmpass;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -49,17 +50,17 @@ class _RegistroState extends State<Registro> {
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
-                      validator: (input) =>
-                          !input.contains('@') ? 'Ingrese un email' : null,
+                      validator: (input) => !input.contains('@')
+                          ? 'Ingrese un email valido'
+                          : null,
                       onSaved: (input) => _email = input,
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 13.0),
                     child: TextFormField(
-                      controller: passController,
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
                         labelStyle: theme.textTheme.caption
@@ -69,9 +70,32 @@ class _RegistroState extends State<Registro> {
                           color: Colors.white,
                         ),
                       ),
-                      validator: (input) =>
-                          input.length < 6 ? 'Al menos 6 caracters' : null,
-                      onSaved: (input) => _email = input,
+                      validator: (input) => input.trim().length < 6
+                          ? 'Al menos 6 caracters'
+                          : null,
+                      onSaved: (input) => _pass = input,
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      obscureText: true,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 13.0),
+                    child: TextFormField(
+                      controller: passController,
+                      decoration: InputDecoration(
+                        labelText: 'Confirme su contraseña',
+                        labelStyle: theme.textTheme.caption
+                            .copyWith(color: Colors.white, fontSize: 15.0),
+                        icon: Icon(
+                          FontAwesomeIcons.userLock,
+                          color: Colors.white,
+                        ),
+                      ),
+                      validator: (_pass) => _pass != _confirmpass
+                          ? 'Las contraseñas deben coincidir'
+                          : null,
+                      onSaved: (input) => _confirmpass = input,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                       obscureText: true,
                     ),
@@ -82,7 +106,7 @@ class _RegistroState extends State<Registro> {
                     },
                     color: Colors.green,
                     child: Text(
-                      'Ingresar',
+                      'Registrarme',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15.0,
@@ -101,21 +125,24 @@ class _RegistroState extends State<Registro> {
   void signinEmailandPassoword() async {
     FirebaseUser user;
     if (_formKey.currentState.validate()) {
-      try {
-        user = (await mAuth.createUserWithEmailAndPassword(
-            email: emailController.text,
-            password: passController.text)) as FirebaseUser;
-      } catch (e) {
-        print(e.toString());
-      } finally {
-        if (user != null) {
-          print('usuario registrado');
+      if (_pass == _confirmpass) {
+        try {
+          user = (await mAuth.createUserWithEmailAndPassword(
+              email: emailController.text,
+              password: passController.text)) as FirebaseUser;
+        } catch (e) {
+          print(e.toString());
+        } finally {
+          if (user != null) {
+            print('usuario registrado');
+          }
         }
       }
     } else {
       _formKey.currentState.save();
       print(_email);
       print(_pass);
+      print(_confirmpass);
     }
   }
 }
