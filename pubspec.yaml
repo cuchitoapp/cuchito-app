@@ -20,6 +20,7 @@ dependencies:
   firebase_auth: any
   firebase_database: ^3.1.6
   google_sign_in: ^4.5.1
+  screen: ^0.0.5
 
  
  
