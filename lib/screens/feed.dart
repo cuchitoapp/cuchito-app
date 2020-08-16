@@ -1,6 +1,9 @@
+import 'package:cuchitoapp/screens/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Feed extends StatefulWidget {
+  static final String id = 'feed';
   @override
   _FeedState createState() => _FeedState();
 }
@@ -8,6 +11,7 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
+    FirebaseUser userG = ModalRoute.of(context).settings.arguments;
     return Center(
       child: Scaffold(
         backgroundColor: Colors.amber,
@@ -29,10 +33,33 @@ class _FeedState extends State<Feed> {
                   )),
               Text('porfis',
                   style: TextStyle(fontFamily: 'Billabong', fontSize: 30)),
+              RaisedButton(
+                onPressed: () {
+                  _signOut();
+                },
+                color: Colors.green,
+                child: Text(
+                  'bienvenido' + userG.displayName + userG.email,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: null,
+                child: Image.network(userG.photoUrl),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<Login> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+
+    return new Login();
   }
 }
