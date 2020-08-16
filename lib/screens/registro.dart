@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cuchitoapp/screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,10 +11,12 @@ class Registro extends StatefulWidget {
 }
 
 final FirebaseAuth mAuth = FirebaseAuth.instance;
+bool signIn = false;
 
 class _RegistroState extends State<Registro> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _email, _pass, _confirmpass;
   @override
@@ -37,7 +41,7 @@ class _RegistroState extends State<Registro> {
                 children: <Widget>[
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 13.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 11.0),
                     child: TextFormField(
                       controller: emailController,
                       decoration: InputDecoration(
@@ -59,7 +63,27 @@ class _RegistroState extends State<Registro> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 13.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 12.0),
+                    child: TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Nombre de usuario',
+                        labelStyle: theme.textTheme.caption
+                            .copyWith(color: Colors.white, fontSize: 15.0),
+                        icon: Icon(
+                          FontAwesomeIcons.user,
+                          color: Colors.white,
+                        ),
+                      ),
+                      validator: (input) =>
+                          input.isEmpty ? 'ingrese su nombre' : null,
+                      onSaved: (input) => _pass = input,
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 12.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
@@ -80,7 +104,7 @@ class _RegistroState extends State<Registro> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 13.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 11.0),
                     child: TextFormField(
                       controller: passController,
                       decoration: InputDecoration(
@@ -88,7 +112,7 @@ class _RegistroState extends State<Registro> {
                         labelStyle: theme.textTheme.caption
                             .copyWith(color: Colors.white, fontSize: 15.0),
                         icon: Icon(
-                          FontAwesomeIcons.userLock,
+                          FontAwesomeIcons.key,
                           color: Colors.white,
                         ),
                       ),
@@ -122,21 +146,32 @@ class _RegistroState extends State<Registro> {
     );
   }
 
+  FirebaseUser _user;
   void signinEmailandPassoword() async {
-    FirebaseUser user;
     if (_formKey.currentState.validate()) {
       if (_pass == _confirmpass) {
-        try {
-          user = (await mAuth.createUserWithEmailAndPassword(
-              email: emailController.text,
-              password: passController.text)) as FirebaseUser;
-        } catch (e) {
-          print(e.toString());
-        } finally {
-          if (user != null) {
-            print('usuario registrado');
-          }
-        }
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text, password: passController.text)
+            .then((currentUser) => Firestore.instance
+                .collection("users")
+                .document(currentUser.user.uid)
+                .setData({
+                  "email": emailController.text,
+                  "id": currentUser.user.uid,
+                  'username': nameController.text,
+                })
+                .then((result) => {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                          (_) => false),
+                      emailController.clear(),
+                      passController.clear(),
+                      passController.clear(),
+                    })
+                .catchError((err) => print(err)))
+            .catchError((err) => print(err));
       }
     } else {
       _formKey.currentState.save();
@@ -144,5 +179,9 @@ class _RegistroState extends State<Registro> {
       print(_pass);
       print(_confirmpass);
     }
+    setState(() {
+      signIn = true;
+      return _user;
+    });
   }
 }
