@@ -13,56 +13,10 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-final FirebaseAuth mAuth = FirebaseAuth.instance;
-
 class _LoginState extends State<Login> {
-  //
+  // APLICACION Y VISTAS EN SI
   final _formKey = GlobalKey<FormState>();
   String _usuario, _pass;
-  _submit() {
-    if (_formKey.currentState.validate()) {
-      if (_usuario == 'cuchito' && _pass == '1234') {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: Colors.red[50],
-              title: new Text(
-                'Bienvenido',
-                style: TextStyle(
-                  fontFamily: 'Billabong',
-                  fontSize: 48.0,
-                ),
-              ),
-              content: new Text(
-                "Bienvenido: " + _usuario,
-                style: TextStyle(
-                  fontFamily: 'Billabong',
-                  fontSize: 20.0,
-                ),
-              ),
-              actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                new FlatButton(
-                  child: new Text("Continuar"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Feed()),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        _formKey.currentState.save();
-        print(_usuario);
-        print(_pass);
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +74,7 @@ class _LoginState extends State<Login> {
                             ? 'Ingrese su nombre de usuario'
                             : null,
                         onSaved: (input) => _usuario = input,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
                     Padding(
@@ -131,7 +86,7 @@ class _LoginState extends State<Login> {
                           labelStyle: theme.textTheme.caption
                               .copyWith(color: Colors.white, fontSize: 15.0),
                           icon: Icon(
-                            FontAwesomeIcons.userLock,
+                            FontAwesomeIcons.unlock,
                             color: Colors.white,
                           ),
                         ),
@@ -139,14 +94,17 @@ class _LoginState extends State<Login> {
                             ? 'Debe ingresar alguna contraseña'
                             : null,
                         onSaved: (input) => _pass = input,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                         obscureText: true,
                       ),
                     ),
                     SizedBox(height: 20.0),
                     Container(
-                      width: 250.0,
-                      child: FlatButton(
-                        onPressed: _submit,
+                      width: 200.0,
+                      child: RaisedButton(
+                        onPressed: () {
+                          signWithCuchito();
+                        },
                         color: Colors.green,
                         child: Text(
                           'Ingresar',
@@ -182,14 +140,20 @@ class _LoginState extends State<Login> {
                       child: Icon(FontAwesomeIcons.google),
                       backgroundColor: Color(0xff4285F4),
                       onPressed: () {
-                        signInWithGoogle();
+                        handleSignIn().whenComplete(() => Navigator.pushNamed(
+                            context, Feed.id,
+                            arguments: _user));
                       },
                     ),
                     FloatingActionButton(
                       heroTag: 'facebook',
                       backgroundColor: Color(0xff3b5998),
                       child: Icon(FontAwesomeIcons.facebook),
-                      onPressed: null,
+                      onPressed: () {
+                        SnackBar(
+                          content: Text('hola'),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -201,23 +165,23 @@ class _LoginState extends State<Login> {
     );
   }
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+// Login Google
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  bool isSignIn = false;
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  GoogleSignIn _googleSignIn = new GoogleSignIn();
+  Future<void> handleSignIn() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
+    AuthCredential credential = GoogleAuthProvider.getCredential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken);
 
-    final AuthResult authResult = await _auth.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user;
-
+    AuthResult result = (await _auth.signInWithCredential(credential));
     final FirebaseUser currentUser = await _auth.currentUser();
     if (currentUser != null) {
       final QuerySnapshot result = await Firestore.instance
@@ -232,10 +196,24 @@ class _LoginState extends State<Login> {
             .setData({
           'id': currentUser.uid,
           'username': currentUser.displayName,
-          'profilePicture': currentUser.photoUrl
+          'profilePicture': currentUser.photoUrl,
+          'email': currentUser.email
         });
       } else {}
     }
-    return user;
+    print(result);
+    _user = result.user;
+
+    setState(() {
+      isSignIn = true;
+      return _user;
+    });
+  }
+
+  // sign in cuchito
+  Future signWithCuchito() async {
+    if (_formKey.currentState.validate()) {}
   }
 }
+
+// login facebook
