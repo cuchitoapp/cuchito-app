@@ -197,7 +197,8 @@ class _LoginState extends State<Login> {
           'id': currentUser.uid,
           'username': currentUser.displayName,
           'profilePicture': currentUser.photoUrl,
-          'email': currentUser.email
+          'email': currentUser.email,
+          'new': true
         });
       } else {}
     }
