@@ -41,13 +41,13 @@ class _RegistroState extends State<Registro> {
                 children: <Widget>[
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 11.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
                       controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Correo Electronico',
                         labelStyle: theme.textTheme.caption
-                            .copyWith(color: Colors.white, fontSize: 15.0),
+                            .copyWith(color: Colors.white, fontSize: 13.0),
                         icon: Icon(
                           FontAwesomeIcons.paperPlane,
                           color: Colors.white,
@@ -58,18 +58,18 @@ class _RegistroState extends State<Registro> {
                           ? 'Ingrese un email valido'
                           : null,
                       onSaved: (input) => _email = input,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 12.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
                       controller: nameController,
                       decoration: InputDecoration(
                         labelText: 'Nombre de usuario',
                         labelStyle: theme.textTheme.caption
-                            .copyWith(color: Colors.white, fontSize: 15.0),
+                            .copyWith(color: Colors.white, fontSize: 13.0),
                         icon: Icon(
                           FontAwesomeIcons.user,
                           color: Colors.white,
@@ -78,17 +78,17 @@ class _RegistroState extends State<Registro> {
                       validator: (input) =>
                           input.isEmpty ? 'ingrese su nombre' : null,
                       onSaved: (input) => _pass = input,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 12.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
                         labelStyle: theme.textTheme.caption
-                            .copyWith(color: Colors.white, fontSize: 15.0),
+                            .copyWith(color: Colors.white, fontSize: 13.0),
                         icon: Icon(
                           FontAwesomeIcons.userLock,
                           color: Colors.white,
@@ -98,19 +98,19 @@ class _RegistroState extends State<Registro> {
                           ? 'Al menos 6 caracters'
                           : null,
                       onSaved: (input) => _pass = input,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 15, color: Colors.white),
                       obscureText: true,
                     ),
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 11.0),
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
                       controller: passController,
                       decoration: InputDecoration(
                         labelText: 'Confirme su contraseña',
                         labelStyle: theme.textTheme.caption
-                            .copyWith(color: Colors.white, fontSize: 15.0),
+                            .copyWith(color: Colors.white, fontSize: 13.0),
                         icon: Icon(
                           FontAwesomeIcons.key,
                           color: Colors.white,
@@ -120,23 +120,27 @@ class _RegistroState extends State<Registro> {
                           ? 'Las contraseñas deben coincidir'
                           : null,
                       onSaved: (input) => _confirmpass = input,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 15, color: Colors.white),
                       obscureText: true,
                     ),
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      signinEmailandPassoword();
-                    },
-                    color: Colors.green,
-                    child: Text(
-                      'Registrarme',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
+                  Container(
+                    width: 200,
+                    height: 35,
+                    child: RaisedButton(
+                      onPressed: () {
+                        signinEmailandPassoword();
+                      },
+                      color: Colors.green,
+                      child: Text(
+                        'Registrarme',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -160,6 +164,7 @@ class _RegistroState extends State<Registro> {
                   "email": emailController.text,
                   "id": currentUser.user.uid,
                   'username': nameController.text,
+                  'new': true
                 })
                 .then((result) => {
                       Navigator.pushAndRemoveUntil(
