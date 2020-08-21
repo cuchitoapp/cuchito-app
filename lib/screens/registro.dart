@@ -49,7 +49,7 @@ class _RegistroState extends State<Registro> {
                         labelStyle: theme.textTheme.caption
                             .copyWith(color: Colors.white, fontSize: 13.0),
                         icon: Icon(
-                          FontAwesomeIcons.paperPlane,
+                          FontAwesomeIcons.envelope,
                           color: Colors.white,
                         ),
                       ),

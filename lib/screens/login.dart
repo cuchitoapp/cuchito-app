@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                           labelStyle: theme.textTheme.caption
                               .copyWith(color: Colors.white, fontSize: 15.0),
                           icon: Icon(
-                            FontAwesomeIcons.user,
+                            FontAwesomeIcons.envelope,
                             color: Colors.white,
                           ),
                         ),
@@ -145,7 +145,7 @@ class _LoginState extends State<Login> {
                       onPressed: () {
                         handleSignIn().whenComplete(() => Navigator.pushNamed(
                             context, Feed.id,
-                            arguments: _user));
+                            arguments: _userG));
                       },
                     ),
                     FloatingActionButton(
@@ -169,8 +169,8 @@ class _LoginState extends State<Login> {
   }
 
 // Login Google
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser _user;
+  FirebaseAuth _authG = FirebaseAuth.instance;
+  FirebaseUser _userG;
   bool isSignIn = false;
 
   GoogleSignIn _googleSignIn = new GoogleSignIn();
@@ -184,8 +184,8 @@ class _LoginState extends State<Login> {
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    AuthResult result = (await _auth.signInWithCredential(credential));
-    final FirebaseUser currentUser = await _auth.currentUser();
+    AuthResult result = (await _authG.signInWithCredential(credential));
+    final FirebaseUser currentUser = await _authG.currentUser();
     if (currentUser != null) {
       final QuerySnapshot result = await Firestore.instance
           .collection('users')
@@ -206,11 +206,11 @@ class _LoginState extends State<Login> {
       } else {}
     }
     print(result);
-    _user = result.user;
+    _userG = result.user;
 
     setState(() {
       isSignIn = true;
-      return _user;
+      return _userG;
     });
   }
 
