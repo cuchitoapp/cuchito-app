@@ -17,6 +17,8 @@ class _LoginState extends State<Login> {
   // APLICACION Y VISTAS EN SI
   final _formKey = GlobalKey<FormState>();
   String _usuario, _pass;
+  TextEditingController emailLogController = new TextEditingController();
+  TextEditingController passLogController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +62,9 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 20.0),
                       child: TextFormField(
+                        controller: emailLogController,
                         decoration: InputDecoration(
-                          labelText: 'Usuario',
+                          labelText: 'Email',
                           labelStyle: theme.textTheme.caption
                               .copyWith(color: Colors.white, fontSize: 15.0),
                           icon: Icon(
@@ -70,9 +73,8 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (input) => input.isEmpty
-                            ? 'Ingrese su nombre de usuario'
-                            : null,
+                        validator: (input) =>
+                            input.isEmpty ? 'Ingrese su email' : null,
                         onSaved: (input) => _usuario = input,
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -81,6 +83,7 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 20.0),
                       child: TextFormField(
+                        controller: passLogController,
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
                           labelStyle: theme.textTheme.caption
@@ -103,7 +106,7 @@ class _LoginState extends State<Login> {
                       width: 200.0,
                       child: RaisedButton(
                         onPressed: () {
-                          signWithCuchito();
+                          logInWithCuchito();
                         },
                         color: Colors.green,
                         child: Text(
@@ -212,8 +215,25 @@ class _LoginState extends State<Login> {
   }
 
   // sign in cuchito
-  Future signWithCuchito() async {
-    if (_formKey.currentState.validate()) {}
+  final FirebaseAuth mAuth = FirebaseAuth.instance;
+  FirebaseUser userC;
+  Future logInWithCuchito() async {
+    if (_formKey.currentState.validate()) {
+      try {
+        userC = await mAuth.signInWithEmailAndPassword(
+            email: emailLogController.text,
+            password: passLogController.text) as FirebaseUser;
+      } catch (e) {
+        print(e.toString());
+      } finally {
+        if (userC != null) {
+          print('Usuario Logeado');
+        }
+      }
+      setState(() {
+        return userC;
+      });
+    }
   }
 }
 
