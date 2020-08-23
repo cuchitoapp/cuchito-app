@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuchitoapp/screens/login.dart';
+import 'package:cuchitoapp/feed2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -129,7 +129,12 @@ class _RegistroState extends State<Registro> {
                     height: 35,
                     child: RaisedButton(
                       onPressed: () {
-                        signinEmailandPassoword();
+                        signinEmailandPassoword().whenComplete(() =>
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Feed2(
+                                        username: emailController.text))));
                       },
                       color: Colors.green,
                       child: Text(
@@ -151,7 +156,7 @@ class _RegistroState extends State<Registro> {
   }
 
   FirebaseUser _user;
-  void signinEmailandPassoword() async {
+  Future signinEmailandPassoword() async {
     if (_formKey.currentState.validate()) {
       if (_pass == _confirmpass) {
         FirebaseAuth.instance
@@ -167,10 +172,6 @@ class _RegistroState extends State<Registro> {
                   'new': true
                 })
                 .then((result) => {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => Login()),
-                          (_) => false),
                       emailController.clear(),
                       passController.clear(),
                       passController.clear(),
