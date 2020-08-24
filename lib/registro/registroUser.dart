@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuchitoapp/feed2.dart';
+import 'package:cuchitoapp/screens/feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +15,7 @@ bool signIn = false;
 
 class _RegistroState extends State<Registro> {
   TextEditingController emailController = new TextEditingController();
+  TextEditingController passConfirmController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   TextEditingController nameController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -85,6 +86,7 @@ class _RegistroState extends State<Registro> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
+                      controller: passController,
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
                         labelStyle: theme.textTheme.caption
@@ -106,7 +108,7 @@ class _RegistroState extends State<Registro> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: TextFormField(
-                      controller: passController,
+                      controller: passConfirmController,
                       decoration: InputDecoration(
                         labelText: 'Confirme su contraseña',
                         labelStyle: theme.textTheme.caption
@@ -116,9 +118,10 @@ class _RegistroState extends State<Registro> {
                           color: Colors.white,
                         ),
                       ),
-                      validator: (_pass) => _pass != _confirmpass
-                          ? 'Las contraseñas deben coincidir'
-                          : null,
+                      validator: (_pass) =>
+                          passController.text != passConfirmController.text
+                              ? 'Las contraseñas deben coincidir'
+                              : null,
                       onSaved: (input) => _confirmpass = input,
                       style: TextStyle(fontSize: 15, color: Colors.white),
                       obscureText: true,
@@ -129,12 +132,17 @@ class _RegistroState extends State<Registro> {
                     height: 35,
                     child: RaisedButton(
                       onPressed: () {
-                        signinEmailandPassoword().whenComplete(() =>
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Feed2(
-                                        username: emailController.text))));
+                        if (_formKey.currentState.validate()) {
+                          signinEmailandPassoword()
+                              .whenComplete(() => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Feed(
+                                      username: _email,
+                                      name: nameController.text,
+                                    ),
+                                  )));
+                        }
                       },
                       color: Colors.green,
                       child: Text(
@@ -157,34 +165,34 @@ class _RegistroState extends State<Registro> {
 
   FirebaseUser _user;
   Future signinEmailandPassoword() async {
-    if (_formKey.currentState.validate()) {
-      if (_pass == _confirmpass) {
-        FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passController.text)
-            .then((currentUser) => Firestore.instance
-                .collection("users")
-                .document(currentUser.user.uid)
-                .setData({
-                  "email": emailController.text,
-                  "id": currentUser.user.uid,
-                  'username': nameController.text,
-                  'new': true
-                })
-                .then((result) => {
-                      emailController.clear(),
-                      passController.clear(),
-                      passController.clear(),
-                    })
-                .catchError((err) => print(err)))
-            .catchError((err) => print(err));
-      }
-    } else {
-      _formKey.currentState.save();
-      print(_email);
-      print(_pass);
-      print(_confirmpass);
+    if (_pass == _confirmpass) {
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passConfirmController.text)
+          .then((currentUser) => Firestore.instance
+              .collection("users")
+              .document(currentUser.user.uid)
+              .setData({
+                "email": emailController.text,
+                "id": currentUser.user.uid,
+                'username': nameController.text,
+                'new': true
+              })
+              .then((result) => {
+                    emailController.clear(),
+                    nameController.clear(),
+                    passController.clear(),
+                    passConfirmController.clear(),
+                  })
+              .catchError((err) => print(err)))
+          .catchError((err) => print(err));
     }
+
+    _formKey.currentState.save();
+    print(_email);
+    print(_pass);
+    print(_confirmpass);
+
     setState(() {
       signIn = true;
       return _user;

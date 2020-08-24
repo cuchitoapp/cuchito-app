@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cuchitoapp/screens/login.dart';
+import 'package:cuchitoapp/registro/login.dart';
 
 import 'package:flutter/material.dart';
 

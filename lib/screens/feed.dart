@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class Feed extends StatelessWidget {
   static final String id = 'feed';
   final String username;
+  final String name;
 
-  const Feed({Key key, this.username}) : super(key: key);
+  const Feed({Key key, this.username, this.name}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     FirebaseUser userG = ModalRoute.of(context).settings.arguments;
@@ -36,7 +37,7 @@ class Feed extends StatelessWidget {
                   onPressed: () {},
                   color: Colors.green,
                   child: Text(
-                    'bienvenido' + userG.displayName + userG.email,
+                    'bienvenido',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,
@@ -46,7 +47,6 @@ class Feed extends StatelessWidget {
               ),
               FloatingActionButton(
                 onPressed: null,
-                child: Image.network(userG.photoUrl),
               )
             ],
           ),

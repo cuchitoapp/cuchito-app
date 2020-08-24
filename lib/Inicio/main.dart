@@ -1,7 +1,7 @@
 import 'package:cuchitoapp/screens/feed.dart';
-import 'package:cuchitoapp/screens/login.dart';
-import 'package:cuchitoapp/screens/registro.dart';
-import 'package:cuchitoapp/splash.dart';
+import 'package:cuchitoapp/registro/login.dart';
+import 'package:cuchitoapp/registro/registroUser.dart';
+import 'package:cuchitoapp/Inicio/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
