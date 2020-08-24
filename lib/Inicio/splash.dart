@@ -32,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          //fit: BoxFit.cover,
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[

@@ -139,15 +139,16 @@ class _LoginState extends State<Login> {
                       },
                     ),
                     FloatingActionButton(
-                      heroTag: 'google',
-                      child: Icon(FontAwesomeIcons.google),
-                      backgroundColor: Color(0xff4285F4),
-                      onPressed: () {
+                        heroTag: 'google',
+                        child: Icon(FontAwesomeIcons.google),
+                        backgroundColor: Color(0xff4285F4),
+                        onPressed:
+                            null /*() {
                         handleSignIn().whenComplete(() => Navigator.pushNamed(
                             context, Feed.id,
                             arguments: _userG));
-                      },
-                    ),
+                      }, */
+                        ),
                     FloatingActionButton(
                       heroTag: 'facebook',
                       backgroundColor: Color(0xff3b5998),
