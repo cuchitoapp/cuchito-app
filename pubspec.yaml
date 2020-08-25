@@ -21,6 +21,9 @@ dependencies:
   firebase_database: ^3.1.6
   google_sign_in: ^4.5.1
   screen: ^0.0.5
+  camera: ^0.5.8+5
+  path_provider: ^1.6.14
+  image_picker: ^0.6.7+6
 
  
  
@@ -52,6 +55,7 @@ flutter:
   assets:
     - assets/images/foto2.png
     - assets/images/foto1.png
+    - assets/images/foto3.png
 
   fonts:
      - family: Billabong

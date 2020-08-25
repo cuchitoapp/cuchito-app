@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuchitoapp/registro/registroPetC.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -9,9 +7,6 @@ class Registro extends StatefulWidget {
   @override
   _RegistroState createState() => _RegistroState();
 }
-
-final FirebaseAuth mAuth = FirebaseAuth.instance;
-bool signIn = false;
 
 class _RegistroState extends State<Registro> {
   TextEditingController emailController = new TextEditingController();
@@ -133,19 +128,20 @@ class _RegistroState extends State<Registro> {
                     child: RaisedButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          signinEmailandPassoword()
-                              .whenComplete(() => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegisterPetC(
-                                      name: nameController.text,
-                                    ),
-                                  )));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterPetC(
+                                  nameController: nameController.text,
+                                  emailController: emailController.text,
+                                  passController: passController.text,
+                                ),
+                              ));
                         }
                       },
                       color: Colors.green,
                       child: Text(
-                        'Registrarme',
+                        'Comencemos!',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15.0,
@@ -160,41 +156,5 @@ class _RegistroState extends State<Registro> {
         ],
       ),
     );
-  }
-
-  FirebaseUser _user;
-  Future signinEmailandPassoword() async {
-    if (_pass == _confirmpass) {
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passConfirmController.text)
-          .then((currentUser) => Firestore.instance
-              .collection("users")
-              .document(currentUser.user.uid)
-              .setData({
-                "email": emailController.text,
-                "id": currentUser.user.uid,
-                'username': nameController.text,
-                'new': true
-              })
-              .then((result) => {
-                    emailController.clear(),
-                    nameController.clear(),
-                    passController.clear(),
-                    passConfirmController.clear(),
-                  })
-              .catchError((err) => print(err)))
-          .catchError((err) => print(err));
-    }
-
-    _formKey.currentState.save();
-    print(_email);
-    print(_pass);
-    print(_confirmpass);
-
-    setState(() {
-      signIn = true;
-      return _user;
-    });
   }
 }
