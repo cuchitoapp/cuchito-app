@@ -1,6 +1,5 @@
 import 'package:cuchitoapp/screens/feed.dart';
 import 'package:cuchitoapp/registro/login.dart';
-import 'package:cuchitoapp/registro/registroUser.dart';
 import 'package:cuchitoapp/Inicio/splash.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         Login.id: (context) => Login(),
-        Registro.id: (context) => Registro(),
         Feed.id: (context) => Feed(),
       },
     );

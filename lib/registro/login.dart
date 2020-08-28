@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuchitoapp/registro/registroUser.dart';
+import 'package:cuchitoapp/screens/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class Login extends StatefulWidget {
   static final String id = 'login';
@@ -13,14 +15,63 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // APLICACION Y VISTAS EN SI
-  final _formKey = GlobalKey<FormState>();
-  String _usuario, _pass;
-  TextEditingController emailLogController = new TextEditingController();
-  TextEditingController passLogController = new TextEditingController();
+  bool isSignIn = false;
+
+  void initState() {
+    super.initState();
+
+    _googleSignIn.onCurrentUserChanged.listen((gSigninAccount) {
+      controlSignIn(gSigninAccount);
+    }, onError: (gError) {
+      print("Error Message: " + gError);
+    });
+
+    _googleSignIn
+      ..signInSilently(suppressErrors: false).then((gSignInAccount) {
+        controlSignIn(gSignInAccount);
+      }).catchError((gError) {
+        print("Error Message: " + gError);
+      });
+  }
+
+  controlSignIn(GoogleSignInAccount gSigninAccount) {
+    if (gSigninAccount != null) {
+      setState(() {
+        isSignIn = true;
+      });
+    } else {
+      isSignIn = false;
+    }
+  }
+
+  logoutUser() {
+    _googleSignIn.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isSignIn == true) {
+      return buildHomeScreen();
+    } else {
+      return buildSignInScreen();
+    }
+  }
+
+  Widget buildHomeScreen() {
+    return Scaffold(
+      body: RaisedButton.icon(
+          onPressed: logoutUser(),
+          icon: Icon(Icons.close),
+          label: Text('Salir')),
+    );
+  }
+
+  buildSignInScreen() {
+    // APLICACION Y VISTAS EN SI
+    final _formKey = GlobalKey<FormState>();
+    String _usuario, _pass;
+    TextEditingController emailLogController = new TextEditingController();
+    TextEditingController passLogController = new TextEditingController();
     final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () => showDialog<bool>(
@@ -104,10 +155,8 @@ class _LoginState extends State<Login> {
                     Container(
                       width: 200.0,
                       child: RaisedButton(
-                        onPressed: () {
-                          logInWithCuchito();
-                        },
-                        color: Colors.green,
+                        onPressed: null,
+                        color: Colors.white,
                         child: Text(
                           'Ingresar',
                           style: TextStyle(
@@ -133,21 +182,19 @@ class _LoginState extends State<Login> {
                       heroTag: 'cuchito',
                       backgroundColor: Color(0xff3b5998),
                       child: Icon(FontAwesomeIcons.paw),
-                      onPressed: () {
+                      onPressed:
+                          null, /* () {
                         Navigator.pushNamed(context, Registro.id);
-                      },
+                      }, */
                     ),
                     FloatingActionButton(
-                        heroTag: 'google',
-                        child: Icon(FontAwesomeIcons.google),
-                        backgroundColor: Color(0xff4285F4),
-                        onPressed:
-                            null /*() {
-                        handleSignIn().whenComplete(() => Navigator.pushNamed(
-                            context, Feed.id,
-                            arguments: _userG));
-                      }, */
-                        ),
+                      heroTag: 'google',
+                      child: Icon(FontAwesomeIcons.google),
+                      backgroundColor: Color(0xff4285F4),
+                      onPressed: () {
+                        handleSignIn();
+                      },
+                    ),
                     FloatingActionButton(
                       heroTag: 'facebook',
                       backgroundColor: Color(0xff3b5998),
@@ -171,9 +218,7 @@ class _LoginState extends State<Login> {
 // Login Google
   FirebaseAuth _authG = FirebaseAuth.instance;
   FirebaseUser _userG;
-  bool isSignIn = false;
 
-  GoogleSignIn _googleSignIn = new GoogleSignIn();
   Future<void> handleSignIn() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
@@ -210,31 +255,11 @@ class _LoginState extends State<Login> {
 
     setState(() {
       isSignIn = true;
-      return _userG;
     });
   }
 
   // sign in cuchito
-  final FirebaseAuth mAuth = FirebaseAuth.instance;
-  FirebaseUser userC;
-  Future logInWithCuchito() async {
-    if (_formKey.currentState.validate()) {
-      try {
-        userC = await mAuth.signInWithEmailAndPassword(
-            email: emailLogController.text,
-            password: passLogController.text) as FirebaseUser;
-      } catch (e) {
-        print(e.toString());
-      } finally {
-        if (userC != null) {
-          print('Usuario Logeado');
-        }
-      }
-      setState(() {
-        return userC;
-      });
-    }
-  }
+
 }
 
 // login facebook

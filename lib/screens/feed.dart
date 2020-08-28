@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Feed extends StatelessWidget {
   static final String id = 'feed';
@@ -46,7 +47,7 @@ class Feed extends StatelessWidget {
                 ),
               ),
               FloatingActionButton(
-                onPressed: null,
+                onPressed: () {},
               )
             ],
           ),
