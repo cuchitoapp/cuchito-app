@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuchitoapp/screens/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +15,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isSignIn = false;
+  logInUser() {
+    _googleSignIn.signIn();
+  }
 
   void initState() {
     super.initState();
@@ -60,9 +62,7 @@ class _LoginState extends State<Login> {
   Widget buildHomeScreen() {
     return Scaffold(
       body: RaisedButton.icon(
-          onPressed: logoutUser(),
-          icon: Icon(Icons.close),
-          label: Text('Salir')),
+          onPressed: null, icon: Icon(Icons.close), label: Text('Salir')),
     );
   }
 
