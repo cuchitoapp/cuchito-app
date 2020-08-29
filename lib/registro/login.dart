@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
       });
   }
 
-  controlSignIn(GoogleSignInAccount gSigninAccount) {
+  controlSignIn(GoogleSignInAccount gSigninAccount) async {
     if (gSigninAccount != null) {
       setState(() {
         isSignIn = true;
@@ -53,6 +53,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+  saveUserInforFireStore() async {}
   void dispose() {
     pageController.dispose();
     super.dispose();

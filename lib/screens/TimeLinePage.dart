@@ -1,3 +1,5 @@
+import 'package:cuchitoapp/widgets/HeaderWidget.dart';
+import 'package:cuchitoapp/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 
 class TimeLinePage extends StatefulWidget {
@@ -9,7 +11,11 @@ class _TimeLinePageState extends State<TimeLinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(),
+      appBar: header(
+        context,
+        isAppTitle: true,
+      ),
+      body: circularProgress(),
     );
   }
 }
