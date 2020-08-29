@@ -1,5 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cuchitoapp/screens/NotificationsPage.dart';
+import 'package:cuchitoapp/screens/ProfilePage.dart';
+import 'package:cuchitoapp/screens/SearchPage.dart';
+import 'package:cuchitoapp/screens/TimeLinePage.dart';
+import 'package:cuchitoapp/screens/UploadPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,12 +21,13 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isSignIn = false;
-  logInUser() {
-    _googleSignIn.signIn();
-  }
+  PageController pageController;
+  int getPageIndex = 0;
 
   void initState() {
     super.initState();
+
+    pageController = PageController();
 
     _googleSignIn.onCurrentUserChanged.listen((gSigninAccount) {
       controlSignIn(gSigninAccount);
@@ -46,23 +53,62 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  logInUser() {
+    _googleSignIn.signIn();
+  }
+
   logoutUser() {
     _googleSignIn.signOut();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (isSignIn == true) {
-      return buildHomeScreen();
-    } else {
-      return buildSignInScreen();
-    }
+  whenPageChanges(int pageIndex) {
+    setState(() {
+      this.getPageIndex = pageIndex;
+    });
   }
 
-  Widget buildHomeScreen() {
+  onTapChangePage(int pageIndex) {
+    pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
+  }
+
+  Scaffold buildHomeScreen() {
     return Scaffold(
-      body: RaisedButton.icon(
-          onPressed: null, icon: Icon(Icons.close), label: Text('Salir')),
+      body: PageView(
+        children: [
+          TimeLinePage(),
+          SearchPage(),
+          UploadPage(),
+          NotificationsPage(),
+          ProfilePage(),
+        ],
+        controller: pageController,
+        onPageChanged: whenPageChanges,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        currentIndex: getPageIndex,
+        onTap: onTapChangePage,
+        backgroundColor: Theme.of(context).accentColor,
+        activeColor: Colors.white,
+        inactiveColor: Colors.blueGrey,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home)),
+          BottomNavigationBarItem(icon: Icon(Icons.search)),
+          BottomNavigationBarItem(
+              icon: Icon(
+            Icons.photo_camera,
+            size: 37.0,
+          )),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite)),
+          BottomNavigationBarItem(icon: Icon(Icons.person)),
+        ],
+      ),
     );
   }
 
@@ -213,6 +259,15 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isSignIn == true) {
+      return buildHomeScreen();
+    } else {
+      return buildSignInScreen();
+    }
   }
 
 // Login Google
