@@ -10,10 +10,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(
-        context,
-        srtTittle: "Notificaciones",
-      ),
+      appBar: header(context,
+          srtTittle: "Notificaciones", disappearedBackButton: false),
     );
   }
 }

@@ -8,7 +8,7 @@ AppBar header(context,
     iconTheme: IconThemeData(
       color: Colors.white,
     ),
-    automaticallyImplyLeading: disappearedBackButton ? false : true,
+    automaticallyImplyLeading: disappearedBackButton ? true : false,
     title: Text(
       isAppTitle ? "Cuchito" : srtTittle,
       style: TextStyle(
