@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cuchitoapp/models/user.dart';
+import 'package:cuchitoapp/screens/CreateAccountPage.dart';
 import 'package:cuchitoapp/screens/NotificationsPage.dart';
 import 'package:cuchitoapp/screens/ProfilePage.dart';
 import 'package:cuchitoapp/screens/SearchPage.dart';
@@ -11,7 +13,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-GoogleSignIn _googleSignIn = GoogleSignIn();
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+final usersReference = Firestore.instance.collection('users');
+final DateTime timestamp = DateTime.now();
+User currentUser;
 
 class Login extends StatefulWidget {
   static final String id = 'login';
@@ -45,6 +50,7 @@ class _LoginState extends State<Login> {
 
   controlSignIn(GoogleSignInAccount gSigninAccount) async {
     if (gSigninAccount != null) {
+      await saveUserInforFireStore();
       setState(() {
         isSignIn = true;
       });
@@ -53,7 +59,28 @@ class _LoginState extends State<Login> {
     }
   }
 
-  saveUserInforFireStore() async {}
+  saveUserInforFireStore() async {
+    final GoogleSignInAccount gCurrentUser = _googleSignIn.currentUser;
+    DocumentSnapshot documentSnapshot =
+        await usersReference.document(gCurrentUser.id).get();
+    if (!documentSnapshot.exists) {
+      final username = await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CreateAccountPage()));
+
+      usersReference.document(gCurrentUser.id).setData({
+        "id": gCurrentUser.id,
+        "profileName": gCurrentUser.displayName,
+        "username": username,
+        "url": gCurrentUser.photoUrl,
+        "email": gCurrentUser.email,
+        "bio": "",
+        "timestamp": timestamp,
+      });
+      documentSnapshot = await usersReference.document(gCurrentUser.id).get();
+    }
+    currentUser = User.fromDocument(documentSnapshot);
+  }
+
   void dispose() {
     pageController.dispose();
     super.dispose();
@@ -292,19 +319,6 @@ class _LoginState extends State<Login> {
           .collection('users')
           .where("id", isEqualTo: currentUser.uid)
           .getDocuments();
-      final List<DocumentSnapshot> document = result.documents;
-      if (document.length == 0) {
-        Firestore.instance
-            .collection('users')
-            .document(currentUser.uid)
-            .setData({
-          'id': currentUser.uid,
-          'username': currentUser.displayName,
-          'profilePicture': currentUser.photoUrl,
-          'email': currentUser.email,
-          'new': true
-        });
-      } else {}
     }
     print(result);
     _userG = result.user;
