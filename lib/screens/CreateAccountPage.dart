@@ -28,10 +28,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
       key: _scaffoldkey,
       appBar: header(context,
-          srtTittle: "Configura tu usuario", disappearedBackButton: true),
+          srtTittle: "Configura tu usuario", disappearedBackButton: false),
       body: ListView(
         children: [
           Container(
@@ -75,6 +77,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'nombre de usuario',
+                          labelStyle: theme.textTheme.caption
+                              .copyWith(color: Colors.black, fontSize: 15.0),
                           hintText: "Debe ser de al menos 5 caracteres",
                           hintStyle: TextStyle(color: Colors.grey),
                         ),
@@ -95,7 +99,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       child: Text(
                         'Continuar',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),

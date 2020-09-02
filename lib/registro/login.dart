@@ -300,7 +300,6 @@ class _LoginState extends State<Login> {
 
 // Login Google
   FirebaseAuth _authG = FirebaseAuth.instance;
-  FirebaseUser _userG;
 
   Future<void> handleSignIn() async {
     final GoogleSignInAccount googleSignInAccount =
@@ -315,13 +314,12 @@ class _LoginState extends State<Login> {
     AuthResult result = (await _authG.signInWithCredential(credential));
     final FirebaseUser currentUser = await _authG.currentUser();
     if (currentUser != null) {
-      final QuerySnapshot result = await Firestore.instance
+      Firestore.instance
           .collection('users')
           .where("id", isEqualTo: currentUser.uid)
           .getDocuments();
     }
     print(result);
-    _userG = result.user;
 
     setState(() {
       isSignIn = true;
