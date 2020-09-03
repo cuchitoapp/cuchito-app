@@ -93,16 +93,15 @@ class _SearchPageState extends State<SearchPage>
       builder: (context, dataSnapshot) {
         if (!dataSnapshot.hasData) {
           return circularProgress();
-        } else {
-          List<UserResult> searchUsersResult = [];
-          dataSnapshot.data.documents.forEach((document) {
-            User eachUser = User.fromDocument(document);
-            UserResult userResult = UserResult(eachUser);
-            searchUsersResult.add(userResult);
-          });
-
-          return ListView(children: searchUsersResult);
         }
+        List<UserResult> searchUsersResult = [];
+        dataSnapshot.data.documents.forEach((document) {
+          User eachUser = User.fromDocument(document);
+          UserResult userResult = UserResult(eachUser);
+          searchUsersResult.add(userResult);
+        });
+
+        return ListView(children: searchUsersResult);
       },
     );
   }
