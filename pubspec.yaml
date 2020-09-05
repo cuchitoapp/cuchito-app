@@ -23,9 +23,12 @@ dependencies:
   screen: ^0.0.5
   camera: ^0.5.8+5
   path_provider: ^1.6.14
-  image_picker: ^0.6.7+7
+  image_picker: ^0.6.0+2
   cached_network_image:
   image: ^2.1.14
+  geolocator: 5.0.1
+  uuid: ^2.0.0
+  change_app_package_name: ^0.1.2
  
  
   

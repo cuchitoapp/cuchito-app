@@ -111,7 +111,9 @@ class _LoginState extends State<Login> {
         children: [
           TimeLinePage(),
           SearchPage(),
-          UploadPage(),
+          UploadPage(
+            gCurrentUser: currentUser,
+          ),
           NotificationsPage(),
           ProfilePage(),
         ],
