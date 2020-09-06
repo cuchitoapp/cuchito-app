@@ -7,6 +7,7 @@ import 'package:cuchitoapp/screens/ProfilePage.dart';
 import 'package:cuchitoapp/screens/SearchPage.dart';
 import 'package:cuchitoapp/screens/TimeLinePage.dart';
 import 'package:cuchitoapp/screens/UploadPage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +16,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection('users');
+final StorageReference storageReference =
+    FirebaseStorage.instance.ref().child("Posts Pictures");
+final postsReference = Firestore.instance.collection("posts");
 final DateTime timestamp = DateTime.now();
 User currentUser;
 
@@ -331,5 +335,3 @@ class _LoginState extends State<Login> {
   // sign in cuchito
 
 }
-
-// login facebook
