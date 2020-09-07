@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuchitoapp/models/user.dart';
 import 'package:cuchitoapp/registro/login.dart';
+import 'package:cuchitoapp/screens/CommentsPage.dart';
 import 'package:cuchitoapp/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -239,7 +240,7 @@ class _PostState extends State<Post> {
                   size: 140.0,
                   color: Colors.pink,
                 )
-              : Text("data"),
+              : Text(""),
         ],
       ),
     );
@@ -262,7 +263,7 @@ class _PostState extends State<Post> {
             ),
             Padding(padding: EdgeInsets.only(right: 20.0)),
             GestureDetector(
-              onTap: () => print("show coments"),
+              onTap: () => displayComments(context, postId: ownerId, url: url),
               child: Icon(
                 Icons.chat_bubble_outline,
                 size: 28.0,
@@ -304,5 +305,15 @@ class _PostState extends State<Post> {
         ),
       ],
     );
+  }
+
+  displayComments(BuildContext context,
+      {String postId, String ownerId, String url}) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return CommentsPage(
+            postId: postId, postOwnerId: ownerId, postImageUrl: url);
+      },
+    ));
   }
 }

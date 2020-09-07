@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 AppBar header(context,
     {bool isAppTitle = false,
     String srtTittle,
-    disappearedBackButton = false}) {
+    disappearedBackButton = false,
+    String strTitle}) {
   return AppBar(
     iconTheme: IconThemeData(
       color: Colors.white,

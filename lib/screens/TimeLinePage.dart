@@ -8,8 +8,6 @@ class TimeLinePage extends StatefulWidget {
   _TimeLinePageState createState() => _TimeLinePageState();
 }
 
-final GoogleSignIn _googleSignIn = GoogleSignIn();
-
 class _TimeLinePageState extends State<TimeLinePage> {
   @override
   Widget build(BuildContext context) {
