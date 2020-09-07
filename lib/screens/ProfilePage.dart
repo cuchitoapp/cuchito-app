@@ -196,20 +196,20 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(30.0),
+              padding: EdgeInsets.all(15.0),
               child: Icon(
                 Icons.photo_library,
                 color: Colors.grey,
-                size: 200.0,
+                size: 150.0,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 20.0),
+              padding: EdgeInsets.only(top: 1.0),
               child: Text(
-                "No Posts",
+                "No existen publicaciones",
                 style: TextStyle(
                     color: Colors.redAccent,
-                    fontSize: 40.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold),
               ),
             ),
