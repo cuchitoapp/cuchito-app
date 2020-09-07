@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuchitoapp/models/user.dart';
 import 'package:cuchitoapp/screens/CreateAccountPage.dart';
@@ -11,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
             gCurrentUser: currentUser,
           ),
           NotificationsPage(),
-          ProfilePage(),
+          ProfilePage(userProfileId: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: whenPageChanges,
@@ -162,7 +162,7 @@ class _LoginState extends State<Login> {
           actions: [
             FlatButton(
               child: Text('Si'),
-              onPressed: () => exit(0),
+              onPressed: () => SystemNavigator.pop(),
             ),
             FlatButton(
               child: Text('No'),

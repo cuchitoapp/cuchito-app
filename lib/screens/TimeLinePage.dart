@@ -11,19 +11,13 @@ class TimeLinePage extends StatefulWidget {
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class _TimeLinePageState extends State<TimeLinePage> {
-  signout() {
-    _googleSignIn.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: header(
-          context,
-          isAppTitle: true,
-        ),
-        body: RaisedButton(
-          onPressed: signout(),
-        ));
+      appBar: header(
+        context,
+        isAppTitle: true,
+      ),
+    );
   }
 }
