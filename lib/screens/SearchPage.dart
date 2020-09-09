@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuchitoapp/models/user.dart';
 import 'package:cuchitoapp/registro/login.dart';
+import 'package:cuchitoapp/screens/ProfilePage.dart';
 import 'package:cuchitoapp/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +133,8 @@ class UserResult extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => print('Pulsado'),
+              onTap: () =>
+                  displayUserProfile(context, userProfileId: eachUser.id),
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.black,
@@ -159,5 +161,15 @@ class UserResult extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  displayUserProfile(BuildContext context, {String userProfileId}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfilePage(
+            userProfileId: userProfileId,
+          ),
+        ));
   }
 }

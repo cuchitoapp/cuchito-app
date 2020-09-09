@@ -22,9 +22,47 @@ class _ProfilePageState extends State<ProfilePage> {
   int countPost = 0;
   List<Post> postsList = [];
   String postOrientation = "grid";
+  int countTotalFollowers = 0;
+  int countTotalFollowings = 0;
+  bool following = false;
 
   void initState() {
     getAllProfilePosts();
+    getAllFollowers();
+    getAllFollowings();
+    checkIfAlreadyFollowing();
+  }
+
+  getAllFollowings() async {
+    QuerySnapshot querySnapshot = await followingRefrence
+        .document(widget.userProfileId)
+        .collection("userFollowing")
+        .getDocuments();
+    setState(() {
+      countTotalFollowings = querySnapshot.documents.length;
+    });
+  }
+
+  checkIfAlreadyFollowing() async {
+    DocumentSnapshot documentSnapshot = await followersRefrence
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .document(currentOnlineUserId)
+        .get();
+
+    setState(() {
+      following = documentSnapshot.exists;
+    });
+  }
+
+  getAllFollowers() async {
+    QuerySnapshot querySnapshot = await followersRefrence
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .getDocuments();
+    setState(() {
+      countTotalFollowers = querySnapshot.documents.length;
+    });
   }
 
   createProfileTopView() {
@@ -54,9 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            createColums("Posts", 0),
-                            createColums("followers", 0),
-                            createColums("following", 0),
+                            createColums("Posts", countPost),
+                            createColums("followers", countTotalFollowers),
+                            createColums("following", countTotalFollowings),
                           ],
                         ),
                         Row(
@@ -133,7 +171,84 @@ class _ProfilePageState extends State<ProfilePage> {
         title: "Editar perfil",
         performFunction: editUserProfile,
       );
+    } else if (following) {
+      return createBottonTitleAndFunction(
+        title: "Dejar de seguir",
+        performFunction: controlUnfollowUser,
+      );
+    } else if (!following) {
+      return createBottonTitleAndFunction(
+        title: "Seguir",
+        performFunction: controlFollowUser,
+      );
     }
+  }
+
+  controlUnfollowUser() {
+    setState(() {
+      following = false;
+    });
+    followersRefrence
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .document(currentOnlineUserId)
+        .get()
+        .then((document) {
+      if (document.exists) {
+        document.reference.delete();
+      }
+    });
+
+    followingRefrence
+        .document(currentOnlineUserId)
+        .collection("userFollowing")
+        .document(widget.userProfileId)
+        .get()
+        .then((document) {
+      if (document.exists) {
+        document.reference.delete();
+      }
+    });
+    activityFeedReference
+        .document(widget.userProfileId)
+        .collection("feedItems")
+        .document(currentOnlineUserId)
+        .get()
+        .then((document) {
+      if (document.exists) {
+        document.reference.delete();
+      }
+    });
+  }
+
+  controlFollowUser() {
+    setState(() {
+      following = true;
+    });
+
+    followersRefrence
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .document(currentOnlineUserId)
+        .setData({});
+
+    followingRefrence
+        .document(currentOnlineUserId)
+        .collection("userFollowing")
+        .document(widget.userProfileId)
+        .setData({});
+    activityFeedReference
+        .document(widget.userProfileId)
+        .collection("feedItems")
+        .document(currentOnlineUserId)
+        .setData({
+      "type": "follow",
+      "ownerId": widget.userProfileId,
+      "username": currentUser.username,
+      "timestamp": DateTime.now(),
+      "userProfileImg": currentUser.url,
+      "userId": currentOnlineUserId,
+    });
   }
 
   createBottonTitleAndFunction({String title, Function performFunction}) {
@@ -146,11 +261,13 @@ class _ProfilePageState extends State<ProfilePage> {
           height: 26.0,
           child: Text(
             title,
-            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: following ? Colors.grey : Colors.white,
+                fontWeight: FontWeight.bold),
           ),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Colors.black,
+              color: following ? Colors.black : Colors.blue,
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(6.0)),
         ),
