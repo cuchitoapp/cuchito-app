@@ -263,7 +263,8 @@ class _PostState extends State<Post> {
             ),
             Padding(padding: EdgeInsets.only(right: 20.0)),
             GestureDetector(
-              onTap: () => displayComments(context, postId: ownerId, url: url),
+              onTap: () => displayComments(context,
+                  postId: postId, ownerId: ownerId, url: url),
               child: Icon(
                 Icons.chat_bubble_outline,
                 size: 28.0,
