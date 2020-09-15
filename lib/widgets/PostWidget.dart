@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuchitoapp/models/user.dart';
 import 'package:cuchitoapp/registro/login.dart';
 import 'package:cuchitoapp/screens/CommentsPage.dart';
+import 'package:cuchitoapp/screens/ProfilePage.dart';
 import 'package:cuchitoapp/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -125,7 +126,7 @@ class _PostState extends State<Post> {
             backgroundColor: Colors.grey,
           ),
           title: GestureDetector(
-            onTap: () => print("show profile"),
+            onTap: () => displayUserProfile(context, userProfileId: user.id),
             child: Text(
               user.username,
               style:
@@ -148,6 +149,13 @@ class _PostState extends State<Post> {
         );
       },
     );
+  }
+
+  displayUserProfile(BuildContext context, {String userProfileId}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(userProfileId: userProfileId)));
   }
 
   removeLike() {
