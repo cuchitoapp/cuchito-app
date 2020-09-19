@@ -23,6 +23,7 @@ final activityFeedReference = Firestore.instance.collection("feed");
 final commentsRefrence = Firestore.instance.collection("comments");
 final followersRefrence = Firestore.instance.collection("followers");
 final followingRefrence = Firestore.instance.collection("following");
+final timelineRefrence = Firestore.instance.collection("timeline");
 final DateTime timestamp = DateTime.now();
 User currentUser;
 
@@ -84,6 +85,12 @@ class _LoginState extends State<Login> {
         "bio": "",
         "timestamp": timestamp,
       });
+      await followersRefrence
+          .document(gCurrentUser.id)
+          .collection("userFollowers")
+          .document(gCurrentUser.id)
+          .setData({});
+
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
     }
     currentUser = User.fromDocument(documentSnapshot);
@@ -117,7 +124,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: PageView(
         children: [
-          TimeLinePage(),
+          TimeLinePage(gCurrentUser: currentUser),
           SearchPage(),
           UploadPage(
             gCurrentUser: currentUser,
