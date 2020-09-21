@@ -16,6 +16,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection('users');
+final timelineRefrence = Firestore.instance.collection("timeline");
 final StorageReference storageReference =
     FirebaseStorage.instance.ref().child("Posts Pictures");
 final postsReference = Firestore.instance.collection("posts");
@@ -23,6 +24,7 @@ final activityFeedReference = Firestore.instance.collection("feed");
 final commentsRefrence = Firestore.instance.collection("comments");
 final followersRefrence = Firestore.instance.collection("followers");
 final followingRefrence = Firestore.instance.collection("following");
+
 final DateTime timestamp = DateTime.now();
 User currentUser;
 
@@ -84,6 +86,12 @@ class _LoginState extends State<Login> {
         "bio": "",
         "timestamp": timestamp,
       });
+      await followersRefrence
+          .document(gCurrentUser.id)
+          .collection("userFollowers")
+          .document(gCurrentUser.id)
+          .setData({});
+
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
     }
     currentUser = User.fromDocument(documentSnapshot);
@@ -117,7 +125,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: PageView(
         children: [
-          TimeLinePage(),
+          TimeLinePage(gCurrentUser: currentUser),
           SearchPage(),
           UploadPage(
             gCurrentUser: currentUser,

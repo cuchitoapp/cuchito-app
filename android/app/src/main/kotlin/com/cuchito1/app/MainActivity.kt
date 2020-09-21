@@ -1,4 +1,4 @@
-package com.example.cuchitoapp
+package com.cuchito1.app
 
 import io.flutter.embedding.android.FlutterActivity
 
