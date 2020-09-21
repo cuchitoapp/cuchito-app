@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 4),
+        Duration(seconds: 2),
         () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login())));
   }
@@ -26,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.lightGreen[900]),
             child: Image.asset(
               'assets/images/foto1.png',
               fit: BoxFit.cover,
