@@ -120,39 +120,58 @@ class _LoginState extends State<Login> {
         duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
   }
 
-  Scaffold buildHomeScreen() {
-    return Scaffold(
-      body: PageView(
-        children: [
-          TimeLinePage(gCurrentUser: currentUser),
-          SearchPage(),
-          UploadPage(
-            gCurrentUser: currentUser,
-          ),
-          NotificationsPage(),
-          ProfilePage(userProfileId: currentUser?.id),
-        ],
-        controller: pageController,
-        onPageChanged: whenPageChanges,
-        physics: NeverScrollableScrollPhysics(),
+  buildHomeScreen() {
+    return WillPopScope(
+      onWillPop: () => showDialog<bool>(
+        context: context,
+        builder: (c) => AlertDialog(
+          title: Text('Advertencia'),
+          content: Text('Quieres salir de Cuchito?'),
+          actions: [
+            FlatButton(
+              child: Text('Si'),
+              onPressed: () => SystemNavigator.pop(),
+            ),
+            FlatButton(
+              child: Text('No'),
+              onPressed: () => Navigator.pop(c, false),
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: CupertinoTabBar(
-        currentIndex: getPageIndex,
-        onTap: onTapChangePage,
-        backgroundColor: Theme.of(context).accentColor,
-        activeColor: Colors.white,
-        inactiveColor: Colors.blueGrey,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home)),
-          BottomNavigationBarItem(icon: Icon(Icons.search)),
-          BottomNavigationBarItem(
-              icon: Icon(
-            Icons.photo_camera,
-            size: 37.0,
-          )),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite)),
-          BottomNavigationBarItem(icon: Icon(Icons.person)),
-        ],
+      child: Scaffold(
+        body: PageView(
+          children: [
+            TimeLinePage(gCurrentUser: currentUser),
+            SearchPage(),
+            UploadPage(
+              gCurrentUser: currentUser,
+            ),
+            NotificationsPage(),
+            ProfilePage(userProfileId: currentUser?.id),
+          ],
+          controller: pageController,
+          onPageChanged: whenPageChanges,
+          physics: NeverScrollableScrollPhysics(),
+        ),
+        bottomNavigationBar: CupertinoTabBar(
+          currentIndex: getPageIndex,
+          onTap: onTapChangePage,
+          backgroundColor: Theme.of(context).accentColor,
+          activeColor: Colors.white,
+          inactiveColor: Colors.blueGrey,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home)),
+            BottomNavigationBarItem(icon: Icon(Icons.search)),
+            BottomNavigationBarItem(
+                icon: Icon(
+              Icons.photo_camera,
+              size: 37.0,
+            )),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite)),
+            BottomNavigationBarItem(icon: Icon(Icons.person)),
+          ],
+        ),
       ),
     );
   }

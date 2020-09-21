@@ -31,6 +31,7 @@ class _SearchPageState extends State<SearchPage>
 
   AppBar searchPageHeader() {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.black,
       title: TextFormField(
         style: TextStyle(fontSize: 18.0, color: Colors.white),
