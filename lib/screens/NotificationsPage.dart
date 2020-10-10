@@ -150,11 +150,11 @@ class NotificationsItem extends StatelessWidget {
     }
 
     if (type == "like") {
-      notificationItemText = "liked your post.";
+      notificationItemText = "Le ha gustado tu publicacion";
     } else if (type == "comment") {
-      notificationItemText = "replied: $commentData";
+      notificationItemText = "Ha comentado: $commentData";
     } else if (type == "follow") {
-      notificationItemText = "started following you.";
+      notificationItemText = "Comenzo a seguirte";
     } else {
       notificationItemText = "Error, Unknown type = $type";
     }
