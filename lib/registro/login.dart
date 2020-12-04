@@ -180,6 +180,7 @@ class _LoginState extends State<Login> {
     // APLICACION Y VISTAS EN SI
     final _formKey = GlobalKey<FormState>();
     String _usuario, _pass;
+    String email, password;
     TextEditingController emailLogController = new TextEditingController();
     TextEditingController passLogController = new TextEditingController();
     final theme = Theme.of(context);
@@ -265,7 +266,7 @@ class _LoginState extends State<Login> {
                     Container(
                       width: 200.0,
                       child: RaisedButton(
-                        onPressed: null,
+                        onPressed: () {},
                         color: Colors.white,
                         child: Text(
                           'Ingresar',
@@ -289,14 +290,15 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FloatingActionButton(
-                      heroTag: 'cuchito',
-                      backgroundColor: Color(0xff3b5998),
-                      child: Icon(FontAwesomeIcons.paw),
-                      onPressed:
-                          null, /* () {
+                        heroTag: 'cuchito',
+                        backgroundColor: Color(0xff3b5998),
+                        child: Icon(FontAwesomeIcons.paw),
+                        onPressed: () {}
+
+                        /* () {
                         Navigator.pushNamed(context, Registro.id);
                       }, */
-                    ),
+                        ),
                     FloatingActionButton(
                       heroTag: 'google',
                       child: Icon(FontAwesomeIcons.google),

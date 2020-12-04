@@ -128,7 +128,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             EdgeInsets.only(top: 10.0, left: 50.0, right: 50.0),
                         child: RaisedButton(
                           color: Colors.red,
-                          onPressed: logoutUser,
+                          onPressed: logoutUser(),
                           child: Text(
                             "Cerrar sesion",
                             style:
