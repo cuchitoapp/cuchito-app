@@ -14,10 +14,10 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^8.2.1
-  cloud_firestore: ^0.13.7
-  firebase_core: ^0.4.5
   firebase_analytics: ^5.0.16
   firebase_auth: any
+  cloud_firestore: ^0.13.7
+  firebase_core: ^0.4.5
   firebase_database: ^3.1.6
   google_sign_in: ^4.5.1
   screen: ^0.0.5
@@ -31,7 +31,9 @@ dependencies:
   change_app_package_name: ^0.1.2
   firebase_storage: any
   timeago: ^2.0.27
- 
+
+  google_maps_flutter: ^1.0.6
+  location: ^3.1.0
  
   
   
@@ -62,6 +64,7 @@ flutter:
     - assets/images/foto2.png
     - assets/images/foto1.png
     - assets/images/foto3.png
+    - assets/paw_icon.png
 
   fonts:
      - family: Billabong
